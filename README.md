@@ -70,7 +70,7 @@ def extrair_exames(texto):
         "HEMOGRAMA COMPLETO": "HEMOGRAMA"
     }
     
-    # Padrão regex para capturar os principais exames médicos
+     # Padrão regex para capturar os principais exames médicos
     padrao_exames = r"(?i)\b(ressonância magnética|tomografia computadorizada|ultrassonografia|ultrassom|mamografia|radiografia|ecocardiograma|eletrocardiograma|rx|hemograma|teste ergométrico|fisioterapia|endoscopia|colonoscopia|doppler|angiografia|cintilografia|espirometria|densitometria óssea|polissonografia|biopsia|exame de sangue|exame laboratorial|exame clínico|eletroneuromiografia|holter|mapa|radioterapia|pet-scan|cintilografia óssea|urodinâmica|manometria esofágica|capsuloscopia)\b"
     
     exames_encontrados = re.findall(padrao_exames, str(texto))
@@ -78,6 +78,7 @@ def extrair_exames(texto):
     return ", ".join(set(exames_encontrados)) if exames_encontrados else None
     
 3. **Filtragem de Pacientes** → Verifica quais pacientes têm telefone, CPF e exames identificados.
+   
 if df_nao_estruturados is not None:
     df_nao_estruturados["EXAMES_IDENTIFICADOS"] = df_nao_estruturados["DS_RECEITA"].astype(str).apply(extrair_exames)
     df_pacientes_elegiveis = df_nao_estruturados[
@@ -86,7 +87,7 @@ if df_nao_estruturados is not None:
         (df_nao_estruturados["CPF"].notnull())
     ][["ID", "DATA", "TEL", "CPF", "SOLICITANTE", "EXAMES_IDENTIFICADOS"]]
 
-4. **Geração de Mensagens Personalizadas** → Cria mensagens dinâmicas para WhatsApp.
+5. **Geração de Mensagens Personalizadas** → Cria mensagens dinâmicas para WhatsApp.
 def gerar_mensagem(row):
     mensagem = (
         f"Olá 👋, {row['SOLICITANTE']}! Notamos que você tem um exame pendente: {row['EXAMES_IDENTIFICADOS']}. "
@@ -95,7 +96,8 @@ def gerar_mensagem(row):
     )
     return mensagem
 
-5. **Registro de Logs** → Logging armazena informações sobre as mensagens enviadas.
+6. **Registro de Logs** → Logging armazena informações sobre as mensagens enviadas.
+   
 import logging
 logging.basicConfig(filename="envio_mensagens.log", level=logging.INFO, format="%(asctime)s - %(message)s")
 
@@ -105,6 +107,7 @@ def simular_envio_mensagem(row):
     return "Enviado"
 
 6. **Dashboard Interativo** → Streamlit exibe gráficos de exames mais solicitados.
+   
 import streamlit as st
 import plotly.express as px
 
