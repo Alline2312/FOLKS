@@ -59,63 +59,65 @@ def selecionar_arquivo():
     return caminho_arquivo
 
 2. **Processamento de Dados** → Pandas lida com dados estruturados e regex extrai exames de textos.
-import pandas as pd
-import re
 
-def extrair_exames(texto):
-    sinonimos_exames = {
+        import pandas as pd
+        import re
+
+        def extrair_exames(texto):
+            sinonimos_exames = {
         "RX": "RADIOGRAFIA",
         "ULTRASSOM": "ULTRASSONOGRAFIA",
         "ECG": "ELETROCARDIOGRAMA",
         "HEMOGRAMA COMPLETO": "HEMOGRAMA"
-    }
+            }
     
-     # Padrão regex para capturar os principais exames médicos
-    padrao_exames = r"(?i)\b(ressonância magnética|tomografia computadorizada|ultrassonografia|ultrassom|mamografia|radiografia|ecocardiograma|eletrocardiograma|rx|hemograma|teste ergométrico|fisioterapia|endoscopia|colonoscopia|doppler|angiografia|cintilografia|espirometria|densitometria óssea|polissonografia|biopsia|exame de sangue|exame laboratorial|exame clínico|eletroneuromiografia|holter|mapa|radioterapia|pet-scan|cintilografia óssea|urodinâmica|manometria esofágica|capsuloscopia)\b"
+           # Padrão regex para capturar os principais exames médicos
+            padrao_exames = r"(?i)\b(ressonância magnética|tomografia computadorizada|ultrassonografia|ultrassom|mamografia|radiografia|ecocardiograma|eletrocardiograma|rx|hemograma|teste                                ergométrico|fisioterapia|endoscopia|colonoscopia|doppler|angiografia|cintilografia|espirometria|densitometria óssea|polissonografia|biopsia|exame de sangue|exame laboratorial|exame                           clínico|eletroneuromiografia|holter|mapa|radioterapia|pet-scan|cintilografia óssea|urodinâmica|manometria esofágica|capsuloscopia)\b"
     
-    exames_encontrados = re.findall(padrao_exames, str(texto))
-    exames_encontrados = [sinonimos_exames.get(exame.upper(), exame) for exame in exames_encontrados]
-    return ", ".join(set(exames_encontrados)) if exames_encontrados else None
+            exames_encontrados = re.findall(padrao_exames, str(texto))
+            exames_encontrados = [sinonimos_exames.get(exame.upper(), exame) for exame in exames_encontrados]
+            return ", ".join(set(exames_encontrados)) if exames_encontrados else None
     
 3. **Filtragem de Pacientes** → Verifica quais pacientes têm telefone, CPF e exames identificados.
    
-if df_nao_estruturados is not None:
-    df_nao_estruturados["EXAMES_IDENTIFICADOS"] = df_nao_estruturados["DS_RECEITA"].astype(str).apply(extrair_exames)
-    df_pacientes_elegiveis = df_nao_estruturados[
-        (df_nao_estruturados["EXAMES_IDENTIFICADOS"].notnull()) &
-        (df_nao_estruturados["TEL"].notnull()) &
-        (df_nao_estruturados["CPF"].notnull())
-    ][["ID", "DATA", "TEL", "CPF", "SOLICITANTE", "EXAMES_IDENTIFICADOS"]]
+        if df_nao_estruturados is not None:
+             df_nao_estruturados["EXAMES_IDENTIFICADOS"] = df_nao_estruturados["DS_RECEITA"].astype(str).apply(extrair_exames)
+            df_pacientes_elegiveis = df_nao_estruturados[
+                (df_nao_estruturados["EXAMES_IDENTIFICADOS"].notnull()) &
+                (df_nao_estruturados["TEL"].notnull()) &
+                (df_nao_estruturados["CPF"].notnull())
+            ][["ID", "DATA", "TEL", "CPF", "SOLICITANTE", "EXAMES_IDENTIFICADOS"]]
 
 5. **Geração de Mensagens Personalizadas** → Cria mensagens dinâmicas para WhatsApp.
-def gerar_mensagem(row):
-    mensagem = (
+   
+        def gerar_mensagem(row):
+            mensagem = (
         f"Olá 👋, {row['SOLICITANTE']}! Notamos que você tem um exame pendente: {row['EXAMES_IDENTIFICADOS']}. "
         "Para maior comodidade, agende seu exame em nossa rede hospitalar agora mesmo!🗓 "
         "Caso já tenha realizado o exame, desconsidere esta mensagem. Estamos à disposição!"
-    )
-    return mensagem
+            )
+            return mensagem
 
-6. **Registro de Logs** → Logging armazena informações sobre as mensagens enviadas.
+7. **Registro de Logs** → Logging armazena informações sobre as mensagens enviadas.
    
-import logging
-logging.basicConfig(filename="envio_mensagens.log", level=logging.INFO, format="%(asctime)s - %(message)s")
+        import logging
+        logging.basicConfig(filename="envio_mensagens.log", level=logging.INFO, format="%(asctime)s - %(message)s")
 
-def simular_envio_mensagem(row):
-    mensagem_log = f"Mensagem enviada para {row['TEL']} - Exame: {row['EXAMES_IDENTIFICADOS']}"
-    logging.info(mensagem_log)
-    return "Enviado"
+        def simular_envio_mensagem(row):
+           mensagem_log = f"Mensagem enviada para {row['TEL']} - Exame: {row['EXAMES_IDENTIFICADOS']}"
+           logging.info(mensagem_log)
+           return "Enviado"
 
 6. **Dashboard Interativo** → Streamlit exibe gráficos de exames mais solicitados.
    
-import streamlit as st
-import plotly.express as px
+        import streamlit as st
+        import plotly.express as px
 
-def dashboard():
-    st.title("Dashboard de Exames")
-    if df_pacientes_elegiveis is not None and not df_pacientes_elegiveis.empty:
-        exames_mais_frequentes = df_pacientes_elegiveis["EXAMES_IDENTIFICADOS"].value_counts().reset_index()
-        exames_mais_frequentes.columns = ["Exame", "Quantidade"]
+        def dashboard():
+            st.title("Dashboard de Exames")
+            if df_pacientes_elegiveis is not None and not df_pacientes_elegiveis.empty:
+                exames_mais_frequentes = df_pacientes_elegiveis["EXAMES_IDENTIFICADOS"].value_counts().reset_index()
+                exames_mais_frequentes.columns = ["Exame", "Quantidade"]
         fig = px.bar(exames_mais_frequentes, x="Quantidade", y="Exame", orientation='h', title="Top Exames Solicitados")
         st.plotly_chart(fig)
 
