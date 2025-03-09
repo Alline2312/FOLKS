@@ -1,3 +1,6 @@
+# Para instalar todas as bibliotecas necessárias de uma vez, execute este comando no terminal:
+#pip install pandas matplotlib streamlit plotly
+
 import pandas as pd  # Biblioteca para manipulação de dados
 import re            # Biblioteca para trabalhar com expressões regulares
 import logging       # Biblioteca para registrar logs do sistema
