@@ -8,42 +8,8 @@ Este projeto processa e analisa **dados estruturados e não estruturados** de ex
 
 ### 🔹 **Diagrama da Arquitetura**
 
-```
-+--------------------------+
-| Arquivo CSV Estruturado  |
-+--------------------------+
-        ↓
-+--------------------------+
-| Arquivo CSV Não Estruturado |
-+--------------------------+
-        ↓
-+--------------------------------------+
-| Processamento e Extração de Exames  |
-| - Regex para identificar exames     |
-| - Padronização de nomenclatura      |
-+--------------------------------------+
-        ↓
-+--------------------------------------+
-| Filtragem de Pacientes Elegíveis     |
-| - CPF, telefone e exames preenchidos |
-+--------------------------------------+
-        ↓
-+-----------------------------+
-| Geração de Mensagem WhatsApp |
-+-----------------------------+
-        ↓
-+-----------------------------+
-| Simulação de Envio e Logs    |
-+-----------------------------+
-        ↓
-+-----------------------------+
-| Geração de Relatório CSV     |
-+-----------------------------+
-        ↓
-+-----------------------------+
-| Dashboard dos Exames Mais Solicitados |
-+-----------------------------+
-```
+![image](https://github.com/user-attachments/assets/6984b1bb-c66a-4e64-a53a-644feaab7e84)
+
 
 ### 🔹 **Componentes da Solução**
 
