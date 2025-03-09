@@ -8,8 +8,7 @@ Este projeto processa e analisa **dados estruturados e não estruturados** de ex
 
 ### 🔹 **Diagrama da Arquitetura**
 
-![image](https://github.com/user-attachments/assets/6984b1bb-c66a-4e64-a53a-644feaab7e84)
-
+![image](https://github.com/user-attachments/assets/ac33027b-fa35-47ba-b1ee-4ecca27259e9)
 
 ### 🔹 **Componentes da Solução**
 
