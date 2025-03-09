@@ -14,14 +14,14 @@ Este projeto processa e analisa **dados estruturados e não estruturados** de ex
 
 1. **Interface de Seleção de Arquivos** → Tkinter permite que o usuário escolha os arquivos CSV.
 
-import tkinter as tk
-from tkinter import filedialog
+        import tkinter as tk
+        from tkinter import filedialog
 
-def selecionar_arquivo():
-    root = tk.Tk()
-    root.withdraw()
-    caminho_arquivo = filedialog.askopenfilename(title="Selecione um arquivo CSV", filetypes=[("Arquivos CSV", "*.csv")])
-    return caminho_arquivo
+        def selecionar_arquivo():
+        root = tk.Tk()
+        root.withdraw()
+        caminho_arquivo = filedialog.askopenfilename(title="Selecione um arquivo CSV", filetypes=[("Arquivos CSV", "*.csv")])
+        return caminho_arquivo
 
 2. **Processamento de Dados** → Pandas lida com dados estruturados e regex extrai exames de textos.
 
