@@ -152,5 +152,3 @@ Este projeto processa e analisa **dados estruturados e não estruturados** de ex
 Este projeto é de uso livre e pode ser modificado conforme necessário.
 
 ---
-
-🚀 **Agora você pode processar e analisar exames médicos com eficiência!** Qualquer dúvida, me avise. 😊
